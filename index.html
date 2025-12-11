@@ -1,565 +1,570 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2025/12/12~12/14 果果台南小旅</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#C9BAAA">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="果果台南小旅">
+    
+    <!-- Icons -->
+    <link rel="apple-touch-icon" href="./images/apple-touch-icon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="192x192" href="./images/icon-192.svg">
+    <link rel="icon" type="image/svg+xml" sizes="512x512" href="./images/icon-512.svg">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="果果的台南小旅行程規劃 - 2025/12/12~12/14">
+    <meta name="keywords" content="台南旅遊,行程規劃,旅行,台南美食,台南景點">
+    <meta name="author" content="Eric">
+    
+    <title>果果台南小旅 - 2025/12/12~12/14</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    
     <style>
-        /* 全域變數 - 莫蘭迪色系 */
-        :root {
-            --primary: #7A9D96; /* 莫蘭迪綠 */
-            --secondary: #A8B5A5; /* 淺灰綠 */
-            --header-bg: #B8C5BD; /* 淺灰綠 */
-            --header-text: #4A5654; /* 深灰綠 */
-            --accent: #9B9D9C; /* 莫蘭迪灰 */
-            --bg: #E8EBEA; /* 淺灰色背景 */
-            --text: #4A5654;
-            --card-radius: 16px;
+        /* 額外的樣式用於表單 */
+        .form-group {
+            margin-bottom: 16px;
         }
-
-        /* 基礎設定 */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #D5DBD9; /* 莫蘭迪灰綠背景 */
-            margin: 0;
-            padding: 0;
-            color: var(--text);
-            display: flex;
-            justify-content: center;
+        
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
         }
-
-        /* 模擬手機 App 容器 (RWD 核心) */
-        .app-container {
+        
+        .form-control {
             width: 100%;
-            max-width: 480px; /* 限制最大寬度，電腦看像手機 */
-            background-color: var(--bg);
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 100px; /* 預留底部空間 */
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            padding: 10px 12px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+            color: var(--text);
         }
-
-        /* 頂部導航 - 莫蘭迪灰綠 */
-        header {
-            background: linear-gradient(135deg, var(--header-bg), #C8D3CE);
-            color: var(--header-text);
-            padding: 20px;
-            padding-top: max(20px, env(safe-area-inset-top)); /* 避開瀏海 */
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(122, 157, 150, 0.2);
-            border-bottom: 3px solid var(--primary);
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
         }
-        header {
+        
+        select.form-control {
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 16px 0;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn-save-notes {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-navigate {
+            background: var(--green-accent);
+            color: white;
+        }
+        
+        /* 費用頁面樣式 */
+        .expense-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .expense-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .expense-info {
+            flex: 1;
+        }
+        
+        .expense-title {
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        .expense-date {
+            font-size: 0.75rem;
+            color: var(--text);
+            opacity: 0.7;
+        }
+        
+        .expense-amount {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .expense-delete {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+        
+        .expense-stats {
+            background: white;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .category-stat {
+            margin-bottom: 16px;
+        }
+        
+        .category-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .category-emoji {
+            font-size: 1.2rem;
+        }
+        
+        .category-name {
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        .category-amount {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .category-bar {
+            height: 8px;
+            background: var(--bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .category-bar-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        /* 清單頁面樣式 */
+        .checklist-category {
+            margin-bottom: 24px;
+        }
+        
+        .category-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-        }
-        .header-left { flex: 1; }
-        h1 { margin: 0; font-size: 0.9rem; opacity: 0.8; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
-        .trip-title { font-size: 1.6rem; font-weight: 800; margin-top: 4px; color: var(--header-text); }
-        
-        /* 即時溫度顯示 */
-        .weather-widget {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 8px 12px;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--primary);
+            color: white;
             border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-        .temp-display {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--header-text);
-            line-height: 1;
-        }
-        .weather-location {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            margin-top: 2px;
-        }
-        .weather-desc {
-            font-size: 0.65rem;
-            opacity: 0.7;
-            margin-top: 2px;
-        }
-
-        /* 行程區塊動畫 */
-        .day-container {
-            display: none;
-            padding: 15px;
-            animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-        .day-container.active { display: block; }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 卡片設計 - 手機版優化 */
-        .card {
-            background: white;
-            border-radius: var(--card-radius);
-            padding: 18px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border-left: 6px solid #ccc;
-            position: relative;
-            transition: transform 0.2s;
-        }
-        .card:active { transform: scale(0.98); } /* 點擊回饋感 */
-        
-        .card.highlight { border-left-color: var(--primary); background: linear-gradient(to right, #F5F8F7, #fff); }
-        .card.reserved { border-left-color: #B5A8A1; background: linear-gradient(to right, #F0EFED, #fff); }
-
-        /* 標籤與時間 */
-        .time-badge {
-            display: inline-flex;
-            align-items: center;
-            background: #D5DBD9;
-            color: #5A6864;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.95rem;
             margin-bottom: 10px;
+            font-weight: 700;
         }
-        .card.reserved .time-badge { background: #A8ABA8; color: #4A5654; box-shadow: 0 2px 5px rgba(168, 171, 168, 0.3); }
-
-        .location { font-size: 1.25rem; font-weight: 800; margin-bottom: 6px; color: #4A5654; line-height: 1.3; }
-        .desc { font-size: 1rem; color: #555; line-height: 1.6; margin-bottom: 12px; }
-
-        /* 標籤 TAG */
-        .tag {
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 6px;
-            margin-right: 5px;
-            border: 1px solid #ddd;
-            display: inline-block;
-            vertical-align: middle;
-            font-weight: 500;
+        
+        .category-title {
+            font-size: 1.05rem;
         }
-        .tag.food { color: #2E7D32; background: #E8F5E9; border-color: #C8E6C9; }
-        .tag.alert { color: #C62828; background: #FFEBEE; border-color: #FFCDD2; font-weight: 800; }
-
-        /* 連結按鈕區 - 大按鈕好點擊 */
-        .btn-group { 
-            margin-top: 15px; 
-            display: flex; 
-            gap: 10px; 
-            flex-wrap: wrap; 
+        
+        .category-count {
+            font-size: 0.85rem;
+            opacity: 0.9;
         }
-        .btn {
-            text-decoration: none;
-            font-size: 0.9rem;
-            padding: 10px 16px;
-            border-radius: 50px;
-            display: inline-flex;
-            align-items: center;
-            font-weight: 600;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            -webkit-user-select: none;
-        }
-        .btn-map { background: #E3F2FD; color: #0D47A1; }
-        .btn-link { background: #F3E5F5; color: #6A1B9A; }
-        .btn:active { opacity: 0.7; }
-
-        /* 底部導航列 - 針對手機底部優化 */
-        .nav-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 480px; /* 跟隨容器寬度 */
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            padding-bottom: max(10px, env(safe-area-inset-bottom)); /* 避開 iPhone Home Bar */
-            border-top: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
-            z-index: 999;
-        }
-        .nav-item {
-            border: none;
-            background: none;
+        
+        .category-items {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            color: #999;
-            font-size: 0.75rem;
+            gap: 8px;
+        }
+        
+        .checklist-delete {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
             cursor: pointer;
-            width: 33%;
+            padding: 4px;
+            margin-left: auto;
+        }
+        
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        .progress-text {
+            color: var(--primary);
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: var(--bg);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--green-accent));
+            transition: width 0.3s ease;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 0.95rem;
+        }
+        
+        /* 行前準備按鈕 */
+        .prep-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
         }
-        .nav-item span { 
-            font-size: 1.6rem; 
-            margin-bottom: 4px; 
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
-            transition: transform 0.2s;
+        
+        .prep-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
         }
-        .nav-item.active { color: #000; font-weight: 700; }
-        .nav-item.active span { transform: scale(1.2) translateY(-2px); }
-
+        
+        .prep-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* 彈窗樣式 */
+        .prep-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .prep-modal.active {
+            display: flex;
+        }
+        
+        .prep-modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .prep-modal-header {
+            background: var(--primary);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .prep-modal-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+        
+        .prep-modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .prep-modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .prep-modal-body {
+            padding: 20px;
+        }
+        
+        .prep-category {
+            margin-bottom: 24px;
+        }
+        
+        .prep-category-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--bg);
+        }
+        
+        .prep-item {
+            padding: 10px 12px;
+            background: var(--bg);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .prep-item::before {
+            content: "•";
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
     </style>
 </head>
 <body>
-
     <div class="app-container">
+        <!-- 頁首 -->
         <header>
             <div class="header-left">
-                <h1>2025/12/12~12/14</h1>
-                <div class="trip-title">果果台南小旅 👨‍👩‍👧‍👦</div>
+                <h1>TAINAN TRIP</h1>
+                <div class="trip-title">果果台南小旅</div>
+                <button class="prep-btn" onclick="openPrepModal()">📋 行前準備</button>
             </div>
-            <div class="weather-widget" id="weatherWidget">
-                <div class="temp-display" id="tempDisplay">--°</div>
-                <div class="weather-location">台南</div>
-                <div class="weather-desc" id="weatherDesc">載入中...</div>
+            <div class="weather-widget">
+                <div class="temp-display">--°C</div>
+                <div class="weather-location">📍 台南</div>
+                <div class="weather-desc">載入中...</div>
+                <div class="distance-badge">定位中...</div>
             </div>
         </header>
 
-        <!-- Day 1: Friday -->
-        <div id="day1" class="day-container active">
-            
-            <div class="card">
-                <div class="time-badge">07:00</div>
-                <div class="location">林口出發 🚗</div>
-                <div class="desc">
-                    預計車程 2.5 小時<br>
-                    中途停靠：湖口、泰安服務區(南下)
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=湖口服務區南下" target="_blank" class="btn btn-map">📍 湖口服務區</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=泰安服務區南下" target="_blank" class="btn btn-map">📍 泰安服務區</a>
-                </div>
-            </div>
+        <!-- 主要內容區 -->
+        <main>
+            <div class="loading">載入中...</div>
+        </main>
 
-            <div class="card highlight">
-                <div class="time-badge">10:00 - 12:30</div>
-                <div class="location">彰化溪湖糖廠 🚂</div>
-                <div class="desc">
-                    <span class="tag food">午餐</span> 溪湖阿秀羊肉爐 (10:30開)<br>
-                    <span class="tag">景點</span> 蒸氣火車、66 Cheesecake<br>
-                    <span class="tag food">伴手禮</span> 鳥月生吐司、麥味登
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=溪湖糖廠" target="_blank" class="btn btn-map">📍 糖廠</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=溪湖阿秀羊肉爐" target="_blank" class="btn btn-map">📍 羊肉爐</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=66+Cheesecake" target="_blank" class="btn btn-map">📍 66 Cake</a>
-                    <a href="https://fullfenblog.tw/xihu-sugar-factory/" target="_blank" class="btn btn-link">🔗 遊記</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="time-badge">14:00</div>
-                <div class="location">抵達台南 </div>
-                <div class="desc">
-                    中途停靠：新營服務區(南下)
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=新營服務區南下" target="_blank" class="btn btn-map">📍 新營服務區</a>
-                   
-                </div>
-            </div>
-
-            <div class="card highlight">
-                <div class="time-badge">14:30 - 16:00</div>
-                <div class="location">水交社文化園區 🌸</div>
-                <div class="desc">活動：珈琲與花物語 (南選賞)<br>
-                                  伴手禮：獻·烘焙 iminding<br>
-                                  停車：五妃廟停車場</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=水交社文化園區" target="_blank" class="btn btn-map">📍 水交社文化園區</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=獻烘焙" target="_blank" class="btn btn-map">📍 獻·烘焙</a>
-                    <a href="https://maps.app.goo.gl/3bnLSQNhzZNKkhVb7" target="_blank" class="btn btn-map">🅿️ 停車場</a>
-                </div>
-            </div>
-
-            <div class="card hotel">
-                <div class="time-badge">15:00</div>
-                <div class="location">台南和逸飯店 🏨</div>
-                <div class="desc">
-                    <span class="tag alert">重要</span> 16:00 領取贈送餐點<br>
-                    特賣：googoogaga (12:00-21:00)
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=台南和逸飯店西門館" target="_blank" class="btn btn-map">📍 飯店導航</a>
-                    <a href="https://www.googoogaga.com/" target="_blank" class="btn btn-link">🔗 特賣資訊</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="time-badge">晚餐</div>
-                <div class="location">保安路美食 (外帶) 🍜</div>
-                <div class="desc">
-                    阿財牛肉湯、保安路米糕、醇涎坊鍋燒意麵、鄭記蔥肉餅
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=保安路美食" target="_blank" class="btn btn-map">📍 保安路美食地圖</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Day 2: Saturday -->
-        <div id="day2" class="day-container">
-            
-            <div class="card">
-                <div class="time-badge">07:00</div>
-                <div class="location">早餐 & 玩樂 🥣</div>
-                <div class="desc">飯店自助 或 包成羊肉 (05:00-11:00)</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=包成羊肉" target="_blank" class="btn btn-map">📍 包成羊肉</a>
-                </div>
-            </div>
-
-            <div class="card reserved">
-                <div class="time-badge">11:15</div>
-                <div class="location">雛菊餐桌 - 義式 🍝</div>
-                <div class="desc">
-                    <span class="tag alert">已訂位 11:15</span><br>
-                    停車：海安路地下停車場
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=雛菊餐桌台南" target="_blank" class="btn btn-map">📍 導航餐廳</a>
-                    <a href="https://maps.app.goo.gl/2a44dcUEWCN39fHg9" target="_blank" class="btn btn-map">🅿️ 停車場</a>
-                </div>
-            </div>
-
-            <div class="card highlight">
-                <div class="time-badge">下午</div>
-                <div class="location">國華街 / 西市場 🍦</div>
-                <div class="desc">
-                    AIC 冰淇淋、Born Donut、拾參馬卡龍、戎館
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=西市場+台南" target="_blank" class="btn btn-map">📍 西市場</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Born+Donut" target="_blank" class="btn btn-map">📍 Born Donut</a>
-                </div>
-            </div>
-
-            <div class="card highlight">
-                <div class="time-badge">下午</div>
-                <div class="location">安平小旅行 🏰</div>
-                <div class="desc">
-                    停車：安北路停車場<br>
-                    安平出張所 (水豚君)、KAPISUI、同記豆花
-                </div>
-                 <div class="btn-group">
-                    <a href="https://maps.app.goo.gl/kUq8rBogPZNRzvgbA" target="_blank" class="btn btn-map">🅿️ 停車場</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=安平出張所" target="_blank" class="btn btn-map">📍安平出張所  </a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=同記安平豆花" target="_blank" class="btn btn-map">📍同記豆花</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="time-badge">傍晚</div>
-                <div class="location">深緣及水安平航海城 🛳️</div>
-                <div class="desc">
-                    蜷尾家經典冰淇淋<br>
-                    停車：安億路公有停車場
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=深緣及水安平航海城" target="_blank" class="btn btn-map">📍 航海城</a>
-                    <a href="https://maps.app.goo.gl/BEBujHss9WDBqe7h6" target="_blank" class="btn btn-map">🅿️ 停車場</a>
-                </div>
-                <div style="margin-top:10px; font-size:0.85rem; color:#888;">
-                    (備案) Snow Peak Tainan
-                </div>
-            </div>
-
-            <div class="card reserved">
-                <div class="time-badge">17:30</div>
-                <div class="location">牛五蔵 - 台南總店 🥩</div>
-                <div class="desc">
-                    <span class="tag alert">已訂位 17:30</span><br>
-                    甜點：SESERAGI 水果塔
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=牛五蔵台南" target="_blank" class="btn btn-map">📍 導航餐廳</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=SESERAGI水果塔" target="_blank" class="btn btn-map">📍 水果塔</a>
-                </div>
-            </div>
-
-            <div class="card hotel">
-                <div class="time-badge">住宿</div>
-                <div class="location">康橋慢旅 🛌</div>
-                <div class="desc">雙人房 (含早餐) - KLOOK</div>
-                <div class="btn-group">
-                     <a href="https://www.google.com/maps/search/?api=1&query=康橋慢旅" target="_blank" class="btn btn-map">📍 導航飯店</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Day 3: Sunday -->
-        <div id="day3" class="day-container">
-            
-            <div class="card">
-                <div class="time-badge">07:00</div>
-                <div class="location">市區早餐巡禮 🥐</div>
-                <div class="desc">
-                    here Kyoto、阿美嬤紅茶奶、郭春塏鍋貼、開山神社
-                </div>
-                <div class="btn-group">
-                     <a href="https://www.google.com/maps/search/?api=1&query=here+Kyoto+Tainan" target="_blank" class="btn btn-map">📍 here Kyoto</a>
-                     <a href="https://www.google.com/maps/search/?api=1&query=郭春塏鍋貼湯包" target="_blank" class="btn btn-map">📍 郭春塏</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="time-badge">10:00</div>
-                <div class="location">離開台南 (北上) 👋</div>
-                <div class="desc">
-                    預計 10:00 出發<br>
-                    中途停靠：西螺服務區
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=西螺服務區北上" target="_blank" class="btn btn-map">📍 西螺服務區</a>
-                </div>
-            </div>
-
-            <div class="card reserved">
-                <div class="time-badge">12:30 (台中)</div>
-                <div class="location">湯棧 中清店 🥘</div>
-                <div class="desc">
-                    <span class="tag alert">已訂位 12:45</span> 湯棧冷藏肉鍋物<br>
-                    備案：藏壽司、すき家
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=湯棧中清店" target="_blank" class="btn btn-map">📍 湯棧</a>
-                </div>
-            </div>
-
-            <div class="card highlight">
-                <div class="time-badge">15:00</div>
-                <div class="location">台中中央公園 ✈️</div>
-                <div class="desc">
-                    飛行美樂地、臺中市立圖書館總館
-                </div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=台中中央公園飛行美樂地" target="_blank" class="btn btn-map">📍 美樂地</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=臺中市立圖書館總館" target="_blank" class="btn btn-map">📍 綠美圖 </a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="time-badge">17:00</div>
-                <div class="location">溫暖的家 🏠</div>
-                <div class="desc">中途停靠：湖口服務區</div>
-                <div class="btn-group">
-                    <a href="https://www.google.com/maps/search/?api=1&query=湖口服務區北上" target="_blank" class="btn btn-map">📍 湖口服務區</a>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- 底部切換列 -->
-        <nav class="nav-bar">
-            <button class="nav-item active" onclick="switchDay('day1', this)">
-                <span>🌤️</span>
-                12/12 (五)
-            </button>
-            <button class="nav-item" onclick="switchDay('day2', this)">
-                <span>☀️</span>
-                12/13 (六)
-            </button>
-            <button class="nav-item" onclick="switchDay('day3', this)">
-                <span>🌥️</span>
-                12/14 (日)
-            </button>
+        <!-- 底部導航列 -->
+        <nav class="bottom-nav">
+            <a class="nav-item active" data-page="itinerary">
+                <span>📝</span>
+                行程
+            </a>
+            <a class="nav-item" data-page="expense">
+                <span>💸</span>
+                花費
+            </a>
+            <a class="nav-item" data-page="checklist">
+                <span>☑️</span>
+                清單
+            </a>
         </nav>
     </div>
+    
+    <!-- 行前準備彈窗 -->
+    <div class="prep-modal" id="prepModal" onclick="closePrepModal(event)">
+        <div class="prep-modal-content" onclick="event.stopPropagation()">
+            <div class="prep-modal-header">
+                <div class="prep-modal-title">✈️ 行前準備秘笈</div>
+                <button class="prep-modal-close" onclick="closePrepModal()">&times;</button>
+            </div>
+            <div class="prep-modal-body" id="prepModalBody">
+                <div style="text-align: center; padding: 40px; color: #999;">載入中...</div>
+            </div>
+        </div>
+    </div>
 
+    <!-- External Libraries -->
+    <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    
+    <!-- 行前準備功能 -->
     <script>
-        // 天氣圖示對應表
-        const weatherIcons = {
-            'Clear': '☀️',
-            'Clouds': '☁️',
-            'Rain': '🌧️',
-            'Drizzle': '🌦️',
-            'Thunderstorm': '⛈️',
-            'Snow': '❄️',
-            'Mist': '🌫️',
-            'Fog': '🌫️',
-            'Haze': '🌫️'
-        };
-
-        // 取得台南即時天氣和未來三天預報
-        async function fetchTainanWeather() {
+        let prepData = null;
+        
+        // 載入並解析 Excel 檔案
+        async function loadPrepChecklist() {
             try {
-                // 使用 Open-Meteo API (免費、無需API key) - 加入未來三天預報
-                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.9908&longitude=120.2133&current=temperature_2m,weather_code&daily=weather_code&timezone=Asia/Taipei&forecast_days=3');
-                const data = await response.json();
+                const response = await fetch('./行前準備秘笈Check List.xlsx');
+                if (!response.ok) throw new Error('無法載入檔案');
                 
-                const temp = Math.round(data.current.temperature_2m);
-                const weatherCode = data.current.weather_code;
+                const arrayBuffer = await response.arrayBuffer();
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
                 
-                // 更新溫度顯示
-                document.getElementById('tempDisplay').textContent = temp + '°';
+                // 解析資料：第一行是標題
+                const headers = jsonData[0];
+                const categories = {};
                 
-                // 根據天氣代碼顯示天氣描述和圖示
-                const weatherInfo = getWeatherInfo(weatherCode);
-                document.getElementById('weatherDesc').textContent = weatherInfo.desc;
-                
-                // 更新底部導航的天氣圖示（根據每日預報）
-                if (data.daily && data.daily.weather_code) {
-                    updateNavWeatherIcons(data.daily.weather_code);
+                // 將資料依照欄位分組
+                for (let col = 0; col < headers.length; col++) {
+                    const categoryName = headers[col];
+                    if (categoryName) {
+                        categories[categoryName] = [];
+                        for (let row = 1; row < jsonData.length; row++) {
+                            const item = jsonData[row][col];
+                            if (item && item.toString().trim()) {
+                                categories[categoryName].push(item.toString().trim());
+                            }
+                        }
+                    }
                 }
                 
+                prepData = categories;
+                console.log('✅ 行前準備清單載入完成', prepData);
             } catch (error) {
-                console.error('天氣載入失敗:', error);
-                document.getElementById('tempDisplay').textContent = '--°';
-                document.getElementById('weatherDesc').textContent = '無法載入';
+                console.error('❌ 載入行前準備清單失敗:', error);
             }
         }
-
-        // 根據天氣代碼返回描述和圖示
-        function getWeatherInfo(code) {
-            if (code === 0) return { desc: '晴朗', icon: '☀️' };
-            if (code <= 3) return { desc: '多雲', icon: '☁️' };
-            if (code <= 48) return { desc: '霧', icon: '🌫️' };
-            if (code <= 67) return { desc: '雨', icon: '🌧️' };
-            if (code <= 77) return { desc: '雪', icon: '❄️' };
-            if (code <= 82) return { desc: '陣雨', icon: '🌦️' };
-            if (code <= 99) return { desc: '雷雨', icon: '⛈️' };
-            return { desc: '晴', icon: '🌤️' };
-        }
-
-        // 更新底部導航的天氣圖示 - 根據三天預報
-        function updateNavWeatherIcons(weatherCodes) {
-            const navItems = document.querySelectorAll('.nav-item span');
+        
+        // 開啟彈窗
+        function openPrepModal() {
+            const modal = document.getElementById('prepModal');
+            const body = document.getElementById('prepModalBody');
             
-            // 更新每一天的天氣圖示
-            weatherCodes.forEach((code, index) => {
-                if (navItems[index]) {
-                    const weatherInfo = getWeatherInfo(code);
-                    navItems[index].textContent = weatherInfo.icon;
+            if (!prepData) {
+                body.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">⚠️ 清單載入失敗</div>';
+            } else {
+                // 渲染內容
+                let html = '';
+                for (const [category, items] of Object.entries(prepData)) {
+                    if (items.length > 0) {
+                        html += `
+                            <div class="prep-category">
+                                <div class="prep-category-title">${category}</div>
+                                ${items.map(item => `<div class="prep-item">${item}</div>`).join('')}
+                            </div>
+                        `;
+                    }
                 }
+                body.innerHTML = html || '<div style="text-align: center; padding: 40px; color: #999;">暫無資料</div>';
+            }
+            
+            modal.classList.add('active');
+        }
+        
+        // 關閉彈窗
+        function closePrepModal(event) {
+            const modal = document.getElementById('prepModal');
+            modal.classList.remove('active');
+        }
+        
+        // 頁面載入時載入清單
+        window.addEventListener('load', () => {
+            loadPrepChecklist();
+        });
+    </script>
+    
+    <!-- JavaScript Modules -->
+    <script type="module" src="./js/app.js"></script>
+    
+    <!-- Service Worker 註冊 -->
+    <script>
+        // 註冊 Service Worker 以支援 PWA 離線功能
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker 註冊成功:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker 註冊失敗:', error);
+                    });
             });
         }
-
-        function switchDay(dayId, btn) {
-            document.querySelectorAll('.day-container').forEach(el => el.classList.remove('active'));
-            document.getElementById(dayId).classList.add('active');
-            
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            btn.classList.add('active');
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 頁面載入時取得天氣
-        window.addEventListener('DOMContentLoaded', () => {
-            fetchTainanWeather();
-            // 每10分鐘更新一次天氣
-            setInterval(fetchTainanWeather, 600000);
-        });
     </script>
 </body>
 </html>
+
