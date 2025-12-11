@@ -763,16 +763,18 @@
             }
         }
 
-        // 根據天氣代碼返回描述和圖示
+        // 根據天氣代碼返回描述和圖示（依照 WMO Weather Code 標準）
         function getWeatherInfo(code) {
-            if (code === 0) return { desc: '晴朗', icon: '☀️' };
-            if (code >= 1 && code <= 3) return { desc: '多雲', icon: '☁️' };
+            if (code === 0) return { desc: '晴空', icon: '☀️' };
+            if (code === 1) return { desc: '大致晴朗', icon: '🌤️' };
+            if (code === 2) return { desc: '部分多雲', icon: '⛅' };
+            if (code === 3) return { desc: '陰天', icon: '☁️' };
             if (code >= 45 && code <= 48) return { desc: '霧', icon: '🌫️' };
             if (code >= 51 && code <= 67) return { desc: '雨', icon: '🌧️' };
             if (code >= 71 && code <= 77) return { desc: '雪', icon: '❄️' };
             if (code >= 80 && code <= 82) return { desc: '陣雨', icon: '🌦️' };
             if (code >= 95 && code <= 99) return { desc: '雷雨', icon: '⛈️' };
-            return { desc: '晴', icon: '🌤️' };
+            return { desc: '未知', icon: '❓' };
         }
 
         // 更新底部導航的天氣圖示和溫度 - 根據三天預報
