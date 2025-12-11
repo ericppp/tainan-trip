@@ -1,0 +1,570 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#C9BAAA">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="果果台南小旅">
+    
+    <!-- Icons -->
+    <link rel="apple-touch-icon" href="./images/apple-touch-icon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="192x192" href="./images/icon-192.svg">
+    <link rel="icon" type="image/svg+xml" sizes="512x512" href="./images/icon-512.svg">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="果果的台南小旅行程規劃 - 2025/12/12~12/14">
+    <meta name="keywords" content="台南旅遊,行程規劃,旅行,台南美食,台南景點">
+    <meta name="author" content="Eric">
+    
+    <title>果果台南小旅 - 2025/12/12~12/14</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    
+    <style>
+        /* 額外的樣式用於表單 */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+            color: var(--text);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        select.form-control {
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 16px 0;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn-save-notes {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-navigate {
+            background: var(--green-accent);
+            color: white;
+        }
+        
+        /* 費用頁面樣式 */
+        .expense-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .expense-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .expense-info {
+            flex: 1;
+        }
+        
+        .expense-title {
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        .expense-date {
+            font-size: 0.75rem;
+            color: var(--text);
+            opacity: 0.7;
+        }
+        
+        .expense-amount {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .expense-delete {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+        
+        .expense-stats {
+            background: white;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .category-stat {
+            margin-bottom: 16px;
+        }
+        
+        .category-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .category-emoji {
+            font-size: 1.2rem;
+        }
+        
+        .category-name {
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        .category-amount {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .category-bar {
+            height: 8px;
+            background: var(--bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .category-bar-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        /* 清單頁面樣式 */
+        .checklist-category {
+            margin-bottom: 24px;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .category-title {
+            font-size: 1.05rem;
+        }
+        
+        .category-count {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .category-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .checklist-delete {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 4px;
+            margin-left: auto;
+        }
+        
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        .progress-text {
+            color: var(--primary);
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: var(--bg);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--green-accent));
+            transition: width 0.3s ease;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text);
+            opacity: 0.6;
+            font-size: 0.95rem;
+        }
+        
+        /* 行前準備按鈕 */
+        .prep-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        
+        .prep-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
+        }
+        
+        .prep-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* 彈窗樣式 */
+        .prep-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .prep-modal.active {
+            display: flex;
+        }
+        
+        .prep-modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .prep-modal-header {
+            background: var(--primary);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .prep-modal-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+        
+        .prep-modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .prep-modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .prep-modal-body {
+            padding: 20px;
+        }
+        
+        .prep-category {
+            margin-bottom: 24px;
+        }
+        
+        .prep-category-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--bg);
+        }
+        
+        .prep-item {
+            padding: 10px 12px;
+            background: var(--bg);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .prep-item::before {
+            content: "•";
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 頁首 -->
+        <header>
+            <div class="header-left">
+                <h1>TAINAN TRIP</h1>
+                <div class="trip-title">果果台南小旅</div>
+                <button class="prep-btn" onclick="openPrepModal()">📋 行前準備</button>
+            </div>
+            <div class="weather-widget">
+                <div class="temp-display">--°C</div>
+                <div class="weather-location">📍 台南</div>
+                <div class="weather-desc">載入中...</div>
+                <div class="distance-badge">定位中...</div>
+            </div>
+        </header>
+
+        <!-- 主要內容區 -->
+        <main>
+            <div class="loading">載入中...</div>
+        </main>
+
+        <!-- 底部導航列 -->
+        <nav class="bottom-nav">
+            <a class="nav-item active" data-page="itinerary">
+                <span>📝</span>
+                行程
+            </a>
+            <a class="nav-item" data-page="expense">
+                <span>💸</span>
+                花費
+            </a>
+            <a class="nav-item" data-page="checklist">
+                <span>☑️</span>
+                清單
+            </a>
+        </nav>
+    </div>
+    
+    <!-- 行前準備彈窗 -->
+    <div class="prep-modal" id="prepModal" onclick="closePrepModal(event)">
+        <div class="prep-modal-content" onclick="event.stopPropagation()">
+            <div class="prep-modal-header">
+                <div class="prep-modal-title">✈️ 行前準備秘笈</div>
+                <button class="prep-modal-close" onclick="closePrepModal()">&times;</button>
+            </div>
+            <div class="prep-modal-body" id="prepModalBody">
+                <div style="text-align: center; padding: 40px; color: #999;">載入中...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    
+    <!-- 行前準備功能 -->
+    <script>
+        let prepData = null;
+        
+        // 載入並解析 Excel 檔案
+        async function loadPrepChecklist() {
+            try {
+                const response = await fetch('./行前準備秘笈Check List.xlsx');
+                if (!response.ok) throw new Error('無法載入檔案');
+                
+                const arrayBuffer = await response.arrayBuffer();
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+                
+                // 解析資料：第一行是標題
+                const headers = jsonData[0];
+                const categories = {};
+                
+                // 將資料依照欄位分組
+                for (let col = 0; col < headers.length; col++) {
+                    const categoryName = headers[col];
+                    if (categoryName) {
+                        categories[categoryName] = [];
+                        for (let row = 1; row < jsonData.length; row++) {
+                            const item = jsonData[row][col];
+                            if (item && item.toString().trim()) {
+                                categories[categoryName].push(item.toString().trim());
+                            }
+                        }
+                    }
+                }
+                
+                prepData = categories;
+                console.log('✅ 行前準備清單載入完成', prepData);
+            } catch (error) {
+                console.error('❌ 載入行前準備清單失敗:', error);
+            }
+        }
+        
+        // 開啟彈窗
+        function openPrepModal() {
+            const modal = document.getElementById('prepModal');
+            const body = document.getElementById('prepModalBody');
+            
+            if (!prepData) {
+                body.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">⚠️ 清單載入失敗</div>';
+            } else {
+                // 渲染內容
+                let html = '';
+                for (const [category, items] of Object.entries(prepData)) {
+                    if (items.length > 0) {
+                        html += `
+                            <div class="prep-category">
+                                <div class="prep-category-title">${category}</div>
+                                ${items.map(item => `<div class="prep-item">${item}</div>`).join('')}
+                            </div>
+                        `;
+                    }
+                }
+                body.innerHTML = html || '<div style="text-align: center; padding: 40px; color: #999;">暫無資料</div>';
+            }
+            
+            modal.classList.add('active');
+        }
+        
+        // 關閉彈窗
+        function closePrepModal(event) {
+            const modal = document.getElementById('prepModal');
+            modal.classList.remove('active');
+        }
+        
+        // 頁面載入時載入清單
+        window.addEventListener('load', () => {
+            loadPrepChecklist();
+        });
+    </script>
+    
+    <!-- JavaScript Modules -->
+    <script type="module" src="./js/app.js"></script>
+    
+    <!-- Service Worker 註冊 -->
+    <script>
+        // 註冊 Service Worker 以支援 PWA 離線功能
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker 註冊成功:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker 註冊失敗:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
+
