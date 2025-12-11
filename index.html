@@ -728,14 +728,15 @@
             'Haze': '🌫️'
         };
 
-        // 取得台南即時天氣和未來三天預報
+        // 取得台南即時天氣和行程日期天氣預報
         async function fetchTainanWeather() {
             try {
-                // 使用 Open-Meteo API (免費、無需API key) - 加入未來三天預報和每日溫度範圍
-                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.9908&longitude=120.2133&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia/Taipei&forecast_days=3');
+                // 使用 Open-Meteo API - 指定查詢行程日期 2025-12-12 到 2025-12-14
+                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.9908&longitude=120.2133&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia/Taipei&start_date=2025-12-12&end_date=2025-12-14');
                 const data = await response.json();
                 
                 console.log('📊 API 回傳完整資料:', data);
+                console.log('📅 查詢日期:', data.daily.time);
                 console.log('🌤️ 每日天氣代碼:', data.daily.weather_code);
                 console.log('🌡️ 每日最低溫:', data.daily.temperature_2m_min);
                 console.log('🌡️ 每日最高溫:', data.daily.temperature_2m_max);
