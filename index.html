@@ -59,7 +59,17 @@
         }
         .header-left { flex: 1; }
         h1 { margin: 0; font-size: 0.9rem; opacity: 0.8; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
-        .trip-title { font-size: 1.6rem; font-weight: 800; margin-top: 4px; color: var(--header-text); }
+        .trip-title { 
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            margin-top: 4px; 
+            color: var(--header-text); 
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .trip-title:hover {
+            opacity: 0.7;
+        }
         
         /* 即時溫度顯示 */
         .weather-widget {
@@ -328,6 +338,68 @@
             margin-bottom: 24px;
         }
         
+        /* 照片彈窗樣式 */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .photo-modal.active {
+            display: flex;
+        }
+        
+        .photo-modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+            animation: photoZoomIn 0.3s ease;
+        }
+        
+        .photo-modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .photo-modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        
+        .photo-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes photoZoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
         .prep-category-title {
             font-size: 1.1rem;
             font-weight: 800;
@@ -364,7 +436,7 @@
         <header>
             <div class="header-left">
                 <h1>2025/12/12~12/14</h1>
-                <div class="trip-title">果果台南小旅 👨‍👩‍👧‍👦</div>
+                <div class="trip-title" onclick="openPhotoModal()">果果台南小旅 👨‍👩‍👧‍👦</div>
                 <button class="prep-btn" onclick="openPrepModal()">📋 行前準備</button>
             </div>
             <div class="weather-widget" id="weatherWidget">
@@ -641,6 +713,14 @@
         </div>
     </div>
     
+    <!-- 照片彈窗 -->
+    <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+        <div class="photo-modal-content" onclick="event.stopPropagation()">
+            <button class="photo-modal-close" onclick="closePhotoModal()">&times;</button>
+            <img src="data:image/jpeg;base64,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" alt="Family Photo" id="familyPhoto">
+        </div>
+    </div>
+    
     <!-- XLSX Library -->
     <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
@@ -707,6 +787,18 @@
             }
             
             modal.classList.add('active');
+        }
+        
+        // 開啟照片彈窗
+        function openPhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.add('active');
+        }
+        
+        // 關閉照片彈窗
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.remove('active');
         }
         
         // 關閉彈窗
